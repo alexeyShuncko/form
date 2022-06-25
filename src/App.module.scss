@@ -1,0 +1,94 @@
+$pc: #5cda66;
+$err: #f06470;
+
+
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  font-size: 20px;
+
+  >div {
+    margin-bottom: 20px;
+    font-weight: 600;
+    &:hover {
+      font-size: 25px;
+      cursor: pointer;
+    }
+  }
+}
+
+form {
+  padding: 20px 70px;
+  font-size: 16px;
+  border: 1px solid $pc;
+  border-radius: 10px;
+  
+
+  .label {
+    margin-top: 15px;
+   
+  }
+
+  input,
+  textarea {
+    letter-spacing: 2px;
+    padding-left: 20px;
+    font-size: 16px;
+    height: 40px;
+    width: 260px;
+    background-color: #eff5f5;
+    border-radius: 5px;
+
+    &:hover {
+      border: 1px solid $pc;
+    }
+  }
+
+  .inpMessage {
+    height: 80px;
+    padding-right: 20px;
+    padding-top: 10px;
+    letter-spacing: normal
+  }
+
+  button {
+    font-size: 16px;
+    background-color: $pc;
+    height: 40px;
+    width: 120px;
+    border-radius: 5px;
+  }
+
+  .btn {
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+  }
+}
+
+
+.active {
+  border: 1px solid $pc;
+}
+
+.error {
+  border: 1px solid $err;
+
+  &:hover {
+    border: 1px solid $err;
+  }
+}
+
+
+
+
+.messError {
+  color: $err;
+}
+.messErrorReq {
+  color: $err;
+  width: 380px;
+}
