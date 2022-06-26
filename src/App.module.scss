@@ -46,7 +46,10 @@ form {
       border: 1px solid $pc;
     }
   }
-
+.dateInp {
+  padding-right: 20px;
+  
+}
   .inpMessage {
     height: 80px;
     padding-right: 20px;
@@ -60,6 +63,13 @@ form {
     height: 40px;
     width: 120px;
     border-radius: 5px;
+    &:hover {
+      background-color: #a2f7aa;
+    }
+    &:active {
+      background-color: #c3f7c8;
+    }
+    }
   }
 
   .btn {
@@ -67,7 +77,7 @@ form {
     display: flex;
     justify-content: center;
   }
-}
+
 
 
 .active {
@@ -90,5 +100,9 @@ form {
 }
 .messErrorReq {
   color: $err;
-  width: 380px;
+  width: 300px;
+}
+.success {
+  color: $pc;
+  font-size: 25px;
 }

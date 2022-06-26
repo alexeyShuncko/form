@@ -16,7 +16,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "go": "webpack-dev-server --mode development --open"
   },
   "eslintConfig": {
     "extends": [
@@ -35,5 +36,16 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "devDependencies": {
+    "webpack-cli": "^4.10.0",
+    "webpack-dev-server": "^8.11.0",
+    "babel-loader": "^8.11.0",
+    "@babel/preset-react": "^8.11.0",
+    "@babel/preset-env": "^8.11.0",
+    "css-loader": "^8.11.0",
+    "node-sass": "^7.0.1",
+    "sass-loader": "^8.11.0",
+    "style-loader": "^8.11.0"
+    }
 }
