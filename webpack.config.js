@@ -6,7 +6,7 @@ module.exports = {
     context: path.resolve(__dirname, 'src'),
     mode: 'development',
     entry: {
-        main: './index.jsx',
+        main: './index.tsx',
     },
   plugins: [
    new HTMLWebpackPlugin({
@@ -14,7 +14,7 @@ module.exports = {
    })
   ],
     resolve: {
-        extensions: ['.js', '.json', '.png'],
+        extensions: ['.tsx','.js', '.json', '.png'],
       },
 
     devServer: {
@@ -33,12 +33,23 @@ module.exports = {
                 exclude: /node_modules/,  
                 loader: "babel-loader",  
                 options:{
-                    presets:['@babel/preset-env',"@babel/preset-react"] ,
+                    presets:["@babel/preset-env","@babel/preset-react"] ,
                     plugins: [
-                        '@babel/plugin-proposal-class-properties'
+                        "@babel/plugin-proposal-class-properties"
                       ] 
                 }
-            }
+            },
+            {
+                test: /\.tsx$/, 
+                exclude: /node_modules/,  
+                loader: "babel-loader",  
+                options:{
+                    presets:["@babel/preset-env","@babel/preset-react","@babel/preset-typescript" ] ,
+                    plugins: [
+                        "@babel/plugin-proposal-class-properties"
+                      ] 
+                }
+            },
         ]
     }
 }

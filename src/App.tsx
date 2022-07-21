@@ -204,6 +204,7 @@ const App: React.FC = (props) => {
 
 
   const submit = (): void => {
+    
 
     let form = [...document.forms[0].elements]
  const username = form[0] as HTMLInputElement
