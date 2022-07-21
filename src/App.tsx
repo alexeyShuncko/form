@@ -2,36 +2,43 @@ import React, { useState } from "react";
 import s from './App.module.scss';
 
 
-const App = (props) => {
-
-  const [edit, setEdit] = useState(false)
-  const [text, setText] = useState('')
-  const [message, setMessage] = useState(false)
-  const [email, setEmail] = useState(false)
-
-  const [tel, setTel] = useState(['+', '7', ' ', '('])
-  const [telErr, setTelErr] = useState(false)
-  const [telMess, setTelMess] = useState('')
+interface dataForm  {
+  [index: string]: any
+}
 
 
+const App: React.FC = (props) => {
 
-  const active = (e) => {
+  const [edit, setEdit] = useState<boolean>(false)
+  const [text, setText] = useState<string>('')
+  const [message, setMessage] = useState<boolean>(false)
+  const [email, setEmail] = useState<boolean>(false)
+
+  const [tel, setTel] = useState<string[]>(['+', '7', ' ', '('])
+  const [telErr, setTelErr] = useState<boolean>(false)
+  const [telMess, setTelMess] = useState<string>('')
+
+
+
+  const active = (e: React.MouseEvent<HTMLFormElement>): void => {
     let list = [...document.querySelectorAll('input,textarea')]
-    list.map(a => a.classList.contains && a.classList.remove(s.active))
-    if (list.includes(e.target)) {
-      e.target.classList.add(s.active)
+    list.map(a => a.classList.contains(s.active) && a.classList.remove(s.active))
+    if (list.includes(e.target as HTMLElement)) {
+      const target = e.target as HTMLElement
+      target.classList.add(s.active)
     }
   }
 
-  const removeActive = () => {
+  const removeActive = (): void => {
     let list = [...document.querySelectorAll('input, textarea')]
     list.map(a => a.classList.contains(s.active) && a.classList.remove(s.active))
   }
 
 
-  const handleChange = (e) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     // Удаление сообщения об ошибке
-    e.target.nextSibling.classList.contains(s.messErrorReq) && e.target.nextSibling.remove()
+    const child = e.target.nextSibling as HTMLElement
+    child.classList.contains(s.messErrorReq) && child.remove()
 
 
     e.target.value = e.target.value.toUpperCase()
@@ -76,8 +83,9 @@ const App = (props) => {
 
   }
 
-  const handleChangeEmail = (e) => {
-    e.target.nextSibling.classList.contains(s.messErrorReq) && e.target.nextSibling.remove()
+  const handleChangeEmail = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    const child = e.target.nextSibling as HTMLElement
+    child.classList.contains(s.messErrorReq) && child.remove()
     const reg = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
     if (e.target.value === '' || reg.test(e.target.value)) {
       e.currentTarget.classList.contains(s.error) && e.currentTarget.classList.remove(s.error)
@@ -91,7 +99,7 @@ const App = (props) => {
 
 
 
-  const maskAdd = (e) => {
+  const maskAdd = (e: React.MouseEvent<HTMLInputElement>): void => {
     if (tel.length === 0) {
       setTel(['+', '7', ' ', '('])
       e.currentTarget.classList.remove(s.error)
@@ -99,9 +107,10 @@ const App = (props) => {
       setTelMess('')
     }
   }
-  const handleChangeTel = (e) => {
-    if (e.target.nextSibling.classList.contains(s.messErrorReq)) {
-      e.target.nextSibling.remove()
+  const handleChangeTel = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    const child = e.target.nextSibling as HTMLElement
+    if (child.classList.contains(s.messErrorReq)) {
+      child.remove()
       e.currentTarget.classList.remove(s.error)
     }
 
@@ -162,7 +171,7 @@ const App = (props) => {
       setTelMess('Минимум 10 цифр!')
     }
   }
-  const offFocusTel = (e) => {
+  const offFocusTel = (e: React.FocusEvent<HTMLInputElement>): void => {
     if (tel[0] === '+' && e.target.value.length < 18) {
       e.currentTarget.classList.add(s.error)
       setTelErr(true)
@@ -171,15 +180,16 @@ const App = (props) => {
   }
 
 
-  const handleChangeDate = (e) => {
-    e.target.nextSibling.classList.contains(s.messErrorReq) && e.target.nextSibling.remove()
+  const handleChangeDate = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    const child = e.target.nextSibling as HTMLElement
+    child.classList.contains(s.messErrorReq) && child.remove()
     e.currentTarget.classList.contains(s.error) && e.currentTarget.classList.remove(s.error)
   }
 
 
-  const handleChangeMessage = (e) => {
-
-    e.target.nextSibling.classList.contains(s.messErrorReq) && e.target.nextSibling.remove()
+  const handleChangeMessage = (e: React.ChangeEvent<HTMLTextAreaElement>): void => {
+    const child = e.target.nextSibling as HTMLElement
+    child.classList.contains(s.messErrorReq) && child.remove()
 
     if (e.target.value.length < 10) {
       e.currentTarget.classList.add(s.error)
@@ -193,26 +203,36 @@ const App = (props) => {
 
 
 
-  const submit = () => {
+  const submit = (): void => {
 
-    let form = document.forms.my.elements
+    let form = [...document.forms[0].elements]
+ const username = form[0] as HTMLInputElement
+ const email = form[1] as HTMLInputElement
+ const tel = form[2] as HTMLInputElement
+ const date = form[3] as HTMLInputElement
+ const message = form[4] as HTMLTextAreaElement
+ 
+ const childUsername = username.nextSibling as HTMLElement
+    
 
-    if (!/[a-zA-Z]+\s{1}[a-zA-Z]+$/.test(form.username.value)
-      && !form.username.nextSibling.classList.contains(s.messErrorReq)) {
+    if (!/[a-zA-Z]+\s{1}[a-zA-Z]+$/.test(username.value)
+      && !childUsername.classList.contains(s.messErrorReq)) {
       const mess = document.createElement('div')
       mess.appendChild(document.createTextNode(`Поле  может состоять только из 2-х слов
        латинского алфавита. Минимальная длина  3 символа, максимальная 30. 
       Между словами  1 пробел`))
       mess.classList.add(s.messErrorReq)
-      form.username.classList.add(s.error)
-      form.username.after(mess)
+      username.classList.add(s.error)
+      username.after(mess)
     }
 
-   else if (form.username.value === '' || form.email.value === ''
-      || form.tel.value === '' || form.date.value === '' || form.message.value === '') {
-      for (const item of form) {
-        if (item.value === '' && item.type !== 'button'
-          && !item.nextSibling.classList.contains(s.messErrorReq)) {
+   else if (username.value === '' || email.value === ''
+      || tel.value === '' || date.value === '' || message.value === '') {
+      for (const item  of form) {
+        const el = item as HTMLInputElement
+        const child = el.nextSibling as HTMLElement
+        if (el.value === '' && el.type !== 'button'
+          && !child.classList.contains(s.messErrorReq)) {
           const mess = document.createElement('div')
           mess.appendChild(document.createTextNode('Поле не должно быть пустым!'))
           mess.classList.add(s.messErrorReq)
@@ -222,25 +242,27 @@ const App = (props) => {
 
       }
     }
-   else if (form.tel.value.length === 4) {
+   else if (tel.value.length === 4) {
       const mess = document.createElement('div')
       mess.appendChild(document.createTextNode(`Введите номер телефона!`))
       mess.classList.add(s.messErrorReq)
-      form.tel.classList.add(s.error)
-      form.tel.after(mess)
+      tel.classList.add(s.error)
+      tel.after(mess)
     }
     else {
-      let formObj = document.forms.my
+      let formObj = document.forms[0]
       formObj.nextSibling && formObj.nextSibling.remove()
 
-      let btn = document.querySelector('button')
-      btn.disabled = true
+      let btn = document.querySelector('button') as  HTMLButtonElement
+       btn.disabled = true
 
       // Данные полей формы в виде объекта для отправки на сервер
-      let data = {}
-      for (const item of form) {
-        if (item.type !== 'button') {
-          data[item.name] = item.value
+      
+      let data = {} as dataForm
+      for (const item of form ) {
+        const el = item as HTMLFormElement
+        if (el.type !== 'button') {
+          data[el.name] = el.value
         }
       }
 
@@ -249,12 +271,12 @@ const App = (props) => {
         .then(json => {
 
       // Якобы данные с сервера
-      let statusJSON = form.message.value
+      let statusJSON = message.value
       let textJSON = `Форма отправлена успешно!`
       let textJSONError = `Произошла ошибка при отправке формы!`
 
           setTimeout(() => {
-            btn.disabled = false
+            btn!.disabled = false
             if (statusJSON !== 'errorerror') {
               formObj.reset()
               setTel([])
@@ -333,7 +355,7 @@ const App = (props) => {
         <textarea
           name="message"
           className={s.inpMessage}
-          maxLength='300'
+          maxLength={300}
           onChange={handleChangeMessage}
           autoComplete='off'
         />
