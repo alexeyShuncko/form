@@ -92,6 +92,7 @@ form {
 
 
 .messError {
+  cursor: pointer;
   color: $err;
 }
 .messErrorReq {
@@ -101,4 +102,5 @@ form {
 .success {
   color: $pc;
   font-size: 25px;
+  cursor: pointer;
 }

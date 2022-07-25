@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import s from './App.module.scss';
+import setting from './image/Settings.gif';
 
 
-interface dataForm  {
+
+interface dataForm {
   [index: string]: any
 }
 
@@ -13,6 +15,8 @@ const App: React.FC = (props) => {
   const [text, setText] = useState<string>('')
   const [message, setMessage] = useState<boolean>(false)
   const [email, setEmail] = useState<boolean>(false)
+  const [loading, setLoading] = useState<boolean>(false)
+  
 
   const [tel, setTel] = useState<string[]>(['+', '7', ' ', '('])
   const [telErr, setTelErr] = useState<boolean>(false)
@@ -47,8 +51,8 @@ const App: React.FC = (props) => {
     let regName = /[^a-zA-Z ]/
 
 
-    if (e.target.value.length < 3 
-      ||(e.target.value.includes(' ') && e.target.value.slice( 0, e.target.value.indexOf(' ')).length < 3)) {
+    if (e.target.value.length < 3
+      || (e.target.value.includes(' ') && e.target.value.slice(0, e.target.value.indexOf(' ')).length < 3)) {
       e.currentTarget.classList.add(s.error)
       setEdit(true)
       setText("Длина имени минимум 3 символа!")
@@ -204,17 +208,17 @@ const App: React.FC = (props) => {
 
 
   const submit = (): void => {
-    
+
 
     let form = [...document.forms[0].elements]
- const username = form[0] as HTMLInputElement
- const email = form[1] as HTMLInputElement
- const tel = form[2] as HTMLInputElement
- const date = form[3] as HTMLInputElement
- const message = form[4] as HTMLTextAreaElement
- 
- const childUsername = username.nextSibling as HTMLElement
-    
+    const username = form[0] as HTMLInputElement
+    const email = form[1] as HTMLInputElement
+    const tel = form[2] as HTMLInputElement
+    const date = form[3] as HTMLInputElement
+    const message = form[4] as HTMLTextAreaElement
+
+    const childUsername = username.nextSibling as HTMLElement
+
 
     if (!/[a-zA-Z]+\s{1}[a-zA-Z]+$/.test(username.value)
       && !childUsername.classList.contains(s.messErrorReq)) {
@@ -227,9 +231,9 @@ const App: React.FC = (props) => {
       username.after(mess)
     }
 
-   else if (username.value === '' || email.value === ''
+    else if (username.value === '' || email.value === ''
       || tel.value === '' || date.value === '' || message.value === '') {
-      for (const item  of form) {
+      for (const item of form) {
         const el = item as HTMLInputElement
         const child = el.nextSibling as HTMLElement
         if (el.value === '' && el.type !== 'button'
@@ -243,7 +247,7 @@ const App: React.FC = (props) => {
 
       }
     }
-   else if (tel.value.length === 4) {
+    else if (tel.value.length === 4) {
       const mess = document.createElement('div')
       mess.appendChild(document.createTextNode(`Введите номер телефона!`))
       mess.classList.add(s.messErrorReq)
@@ -251,16 +255,17 @@ const App: React.FC = (props) => {
       tel.after(mess)
     }
     else {
+      setLoading(true)
       let formObj = document.forms[0]
       formObj.nextSibling && formObj.nextSibling.remove()
 
-      let btn = document.querySelector('button') as  HTMLButtonElement
-       btn.disabled = true
+      let btn = document.querySelector('button') as HTMLButtonElement
+      btn.disabled = true
 
       // Данные полей формы в виде объекта для отправки на сервер
-      
+
       let data = {} as dataForm
-      for (const item of form ) {
+      for (const item of form) {
         const el = item as HTMLFormElement
         if (el.type !== 'button') {
           data[el.name] = el.value
@@ -271,12 +276,13 @@ const App: React.FC = (props) => {
         .then(response => response.json())
         .then(json => {
 
-      // Якобы данные с сервера
-      let statusJSON = message.value
-      let textJSON = `Форма отправлена успешно!`
-      let textJSONError = `Произошла ошибка при отправке формы!`
+          // Якобы данные с сервера
+          let statusJSON = message.value
+          let textJSON = `Форма отправлена успешно!`
+          let textJSONError = `Произошла ошибка при отправке формы!`
 
           setTimeout(() => {
+            setLoading(false)
             btn!.disabled = false
             if (statusJSON !== 'errorerror') {
               formObj.reset()
@@ -284,7 +290,7 @@ const App: React.FC = (props) => {
               const mess = document.createElement('div')
               mess.appendChild(document.createTextNode(textJSON))
               mess.classList.add(s.success)
-              mess.addEventListener('click', ()=>{
+              mess.addEventListener('click', () => {
                 formObj.nextSibling && formObj.nextSibling.remove()
               })
               formObj.after(mess)
@@ -293,7 +299,7 @@ const App: React.FC = (props) => {
               const mess = document.createElement('div')
               mess.appendChild(document.createTextNode(textJSONError))
               mess.classList.add(s.messError)
-               mess.addEventListener('click', ()=>{
+              mess.addEventListener('click', () => {
                 formObj.nextSibling && formObj.nextSibling.remove()
               })
               formObj.after(mess)
@@ -307,6 +313,7 @@ const App: React.FC = (props) => {
 
   return (
     <div className={s.container}>
+
       <div>Форма обратной связи</div>
       <form name="my" onClick={active} onBlur={removeActive} >
 
@@ -323,9 +330,9 @@ const App: React.FC = (props) => {
 
 
         <div className={s.label}>E-mail</div>
-        <input name="email" 
-        autoComplete='off' 
-        onChange={handleChangeEmail}
+        <input name="email"
+          autoComplete='off'
+          onChange={handleChangeEmail}
         />
         {email && <div className={s.messError}>Некоректный E-mail!</div>}
 
@@ -345,10 +352,10 @@ const App: React.FC = (props) => {
 
         <div className={s.label}>Дата рождения</div>
         <input name="date"
-        className={s.dateInp} 
-        type={'date'} 
-        autoComplete='off' 
-        onChange={handleChangeDate}
+          className={s.dateInp}
+          type={'date'}
+          autoComplete='off'
+          onChange={handleChangeDate}
         />
 
 
@@ -365,6 +372,13 @@ const App: React.FC = (props) => {
 
         <div className={s.btn}>
           <button onClick={submit} type='button' disabled={edit || message || email || telErr}>Отправить</button>
+          { loading &&
+            <img src={setting}
+              alt='settings'
+              width={'45px'}
+              style={{ marginLeft: '10px' }} />
+          }
+
         </div>
       </form>
 
