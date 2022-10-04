@@ -1,4 +1,4 @@
-$pc: #5cda66;
+$pc: #45f3ff;
 $err: #f06470;
 
 
@@ -9,96 +9,169 @@ $err: #f06470;
   align-items: center;
   min-height: 100vh;
   font-size: 20px;
+  background: #23232e;
+}
 
-  >div {
-    margin-bottom: 20px;
-    font-weight: 600;
+
+.box {
+  position: relative;
+  width: 380px;
+  height: 600px;
+  border-radius: 8px;
+  background: #1c1c1c;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 380px;
+    height: 560px;
+    background: linear-gradient(0deg, transparent, #45f3ff, #45f3ff);
+    transform-origin: bottom right;
+    animation: infin 6s linear infinite;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 380px;
+    height: 560px;
+    background: linear-gradient(0deg, #45f3ff, #45f3ff, transparent);
+    transform-origin: top left;
+    animation: infin 6s linear infinite;
   }
 }
+
+@keyframes infin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+
 
 form {
-  padding: 20px 70px;
-  font-size: 16px;
-  border: 1px solid $pc;
-  border-radius: 10px;
-  
+  position: absolute;
+  padding: 30px 40px;
+  inset: 2px;
+  background: #23232e;
+  border-radius: 8px;
+  z-index: 10;
 
-  .label {
-    margin-top: 15px;
-   
+
+  h2 {
+    color: #45f3ff;
+    text-align: center;
+    font-weight: 300;
+    letter-spacing: 0.05em;
+    font-size: 1.1em;
   }
-
-  input,
-  textarea {
-    letter-spacing: 2px;
-    padding-left: 20px;
-    font-size: 16px;
-    height: 40px;
-    width: 260px;
-    background-color: #eff5f5;
-    border-radius: 5px;
-
-    &:hover {
-      border: 1px solid $pc;
-    }
-  }
-.dateInp {
-  padding-right: 20px;
-  
-}
-  .inpMessage {
-    height: 80px;
-    padding-right: 20px;
-    padding-top: 10px;
-    letter-spacing: normal
-  }
-
-  button {
-    font-size: 16px;
-    background-color: $pc;
-    height: 40px;
-    width: 120px;
-    border-radius: 5px;
-    &:hover {
-      background-color: #a2f7aa;
-    }
-    &:active {
-      background-color: #c3f7c8;
-    }
-    }
-  }
-
-  .btn {
-    margin-top: 10px;
-    display: flex;
-    justify-content: center;
-  }
-
-
-
-.active {
-  border: 1px solid $pc;
 }
 
-.error {
-  border: 1px solid $err;
 
-  &:hover {
-    border: 1px solid $err;
+.inputBox {
+  position: relative;
+  margin-top: 30px;
+  width: 300px;
+
+  input, textarea {
+    padding: 20px 10px 10px;
+    width: 100%;
+    border-radius: 4px;
+    border: none;
+    background: transparent;
+    font-size: 1em;
+    outline: none;
+    color: #23232e;
   }
+
+  span {
+    position: absolute;
+    left: 0;
+    padding: 20px 0px 10px;
+    color: #4e4e4e;
+    font-size: 1em;
+    font-weight: 600;
+    pointer-events: none;
+    letter-spacing: 0.05em;
+    transition: 0.5s;
+  }
+  i {
+    position: absolute;
+    left: 0;
+    bottom: 0px;
+    height: 2px;
+    border-radius: 4px;
+    background: #45f3ff;
+    width: 100%;
+    transition: 0.5s;
+    pointer-events: none;
+    z-index: -1;
+  }
+}
+
+.inputBox input:valid ~ span,
+.inputBox input:focus ~ span {
+  transform: translateY(-34px);
+  color: #45f3ff;
+  font-size: 0.75em;
+}
+.inputBox input:valid ~ i,
+.inputBox input:focus ~ i {
+  height: 44px;
+}
+.inputBox textarea:valid ~ i,
+.inputBox textarea:focus ~ i {
+  height: 44px;
+}
+.inputBox textarea:valid ~ span,
+.inputBox textarea:focus ~ span {
+  transform: translateY(-34px);
+  color: #45f3ff;
+  font-size: 0.75em;
+}
+
+
+.btn {
+  display: flex;
+  padding: 10px 20px;
+  background: #45f3ff;
+  border-radius: 4px;
+  margin: 35px auto;
+  font-size: 1em;
+ 
+}
+.btn:active {
+  opacity: 0.8;
+}
+.btn.full {
+  box-shadow: 0 0 10px #45f3ff;
+  transition: 0.25s;
 }
 
 
 
 
 .messError {
-  cursor: pointer;
+  font-size: 0.75em;
   color: $err;
+ margin-top: 3px;
+ letter-spacing: 0.05em;
 }
+
 .messErrorReq {
   color: $err;
   width: 300px;
 }
+
 .success {
   color: $pc;
   font-size: 25px;
