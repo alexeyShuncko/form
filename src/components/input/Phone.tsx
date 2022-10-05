@@ -1,21 +1,20 @@
 import React, { useState } from "react";
 import s from '../../App.module.scss';
-import { ErrorProps } from "../../model/ErrorProps";
+import { IProps } from "../../model/iprops";
 
 
 
 
-const Phone = ({setError, error}: ErrorProps) => {
+const Phone = ({setError, error, setValue, valueInp}: IProps) => {
 
 
-    const [tel, setTel] = useState<string[]>([])
     const [telErr, setTelErr] = useState<boolean>(false)
 
 
 
     const maskAdd = (e: React.MouseEvent<HTMLInputElement>): void => {
-        if (tel.length === 0) {
-            setTel(['+', '7', ' ', '('])
+        if (valueInp.tel.length === 0) {
+            setValue({...valueInp, tel: ['+', '7', ' ', '(']})
             setTelErr(false)
         }
     }
@@ -40,47 +39,47 @@ const Phone = ({setError, error}: ErrorProps) => {
         
 
 
-        if(e.target.value.length < tel.length && tel.length === 4) {
+        if(e.target.value.length < valueInp.tel.length && valueInp.tel.length === 4) {
            return
         }
-        else if (e.target.value.length < tel.length) {
-            tel.pop()
-            setTel([...tel])
+        else if (e.target.value.length < valueInp.tel.length) {
+            valueInp.tel.pop()
+            setValue({...valueInp, tel: [...valueInp.tel]})
         }
         else if (regTel.test(e.target.value.slice(-1))) {
             e.target.value = e.target.value.slice(-1).replace(regTel, '')
         }
-        else if (e.target.value.length === 3 ) {
-            setTel([...tel, ' ', '(', e.target.value.slice(-1)])
-        }
-        else if (e.target.value.length === 4 ) {
-            setTel([...tel, '(', e.target.value.slice(-1)])
-        }
+        // else if (e.target.value.length === 3 ) {
+        //     setTel([...tel, ' ', '(', e.target.value.slice(-1)])
+        // }
+        // else if (e.target.value.length === 4 ) {
+        //     setTel([...tel, '(', e.target.value.slice(-1)])
+        // }
         else if (e.target.value.length === 7 ) {
-            setTel([...tel, e.target.value.slice(-1), ')', ' '])
+            setValue({...valueInp, tel: [...valueInp.tel, e.target.value.slice(-1), ')', ' ']})
         }
         else if (e.target.value.length === 8 ) {
-            setTel([...tel, ')', ' ', e.target.value.slice(-1)])
+            setValue({...valueInp, tel: [...valueInp.tel, ')', ' ', e.target.value.slice(-1)]})
         }
         else if (e.target.value.length === 12) {
-            setTel([...tel, e.target.value.slice(-1), '-'])
+            setValue({...valueInp,tel: [...valueInp.tel, e.target.value.slice(-1), '-']})
         }
         else if (e.target.value.length === 13 ) {
-            setTel([...tel, '-', e.target.value.slice(-1)])
+            setValue({...valueInp,tel: [...valueInp.tel, '-', e.target.value.slice(-1)]})
         }
         else if (e.target.value.length === 15) {
-            setTel([...tel, e.target.value.slice(-1), '-'])
+            setValue({...valueInp,tel: [...valueInp.tel, e.target.value.slice(-1), '-']})
         }
         else if (e.target.value.length === 16 ) {
-            setTel([...tel, '-', e.target.value.slice(-1)])
+            setValue({...valueInp,tel: [...valueInp.tel, '-', e.target.value.slice(-1)]})
         }
         else if (!regTel.test(e.target.value.slice(-1)) && e.target.value.length === 18) {
-            setTel([...tel, e.target.value.slice(-1)])
+            setValue({...valueInp,tel: [...valueInp.tel, e.target.value.slice(-1)]})
             setTelErr(false) 
             setError({...error, tel:false})
         }
         else if (!regTel.test(e.target.value.slice(-1))) {
-            setTel([...tel, e.target.value.slice(-1)])
+            setValue({...valueInp,tel: [...valueInp.tel, e.target.value.slice(-1)]})
         }
       
        
@@ -89,8 +88,8 @@ const Phone = ({setError, error}: ErrorProps) => {
 
 
     const offFocusTel = (e: React.FocusEvent<HTMLInputElement>): void => {
-        if (tel.length === 4) {
-            setTel([])
+        if (valueInp.tel.length === 4) {
+            setValue({...valueInp, tel: []})
         }
     }
 
@@ -103,7 +102,7 @@ const Phone = ({setError, error}: ErrorProps) => {
                 <input name="tel"
                     required
                     maxLength={18}
-                    value={tel.join('')}
+                    value={valueInp.tel.join('')}
                     autoComplete='off'
                     type={'tel'}
                     onChange={handleChangeTel}

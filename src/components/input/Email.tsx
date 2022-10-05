@@ -1,19 +1,18 @@
 import React, { useState } from "react";
 import s from '../../App.module.scss';
-import {  ErrorProps } from "../../model/ErrorProps";
+import {  IProps } from "../../model/iprops";
 
 
 
 
-const Email = ({setError, error }: ErrorProps) => {
+const Email = ({setError, error, setValue, valueInp }: IProps) => {
 
-    const [email, setEmail] = useState<string>('')
     const [edit, setEdit] = useState<boolean>(false)
 
 
     const handleChangeEmail = (e: React.ChangeEvent<HTMLInputElement>): void => {
 
-        setEmail(e.target.value)
+        setValue({...valueInp, email: e.target.value})
 
         const reg = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
         if (  e.target.value === '' ||  reg.test(e.target.value)) {
@@ -33,7 +32,7 @@ const Email = ({setError, error }: ErrorProps) => {
                     autoComplete='off'
                     required
                     onChange={handleChangeEmail}
-                    value={email}
+                    value={valueInp.email}
                 />
                 <span>E-mail</span>
                 <i />

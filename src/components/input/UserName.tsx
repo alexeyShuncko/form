@@ -1,14 +1,13 @@
 import React, { useState } from "react";
 import s from '../../App.module.scss';
-import { ErrorProps } from "../../model/ErrorProps";
+import { IProps } from "../../model/iprops";
 
 
 
 
 
-const UserName = ({setError, error}: ErrorProps) => {
+const UserName = ({setError, error, setValue, valueInp}: IProps) => {
 
-  const [name, setName] = useState<string>('')
   const [text, setText] = useState<string>('')
   const [edit, setEdit] = useState<boolean>(false)
 
@@ -19,7 +18,8 @@ const UserName = ({setError, error}: ErrorProps) => {
     setError({...error, name: true})
 
     e.target.value = e.target.value.toUpperCase()
-    setName(e.target.value)
+    
+    setValue({...valueInp, name: e.target.value})
 
     let regName = /[^a-zA-Z ]/
 
@@ -72,7 +72,7 @@ const UserName = ({setError, error}: ErrorProps) => {
                 name="username"
                 required
                 autoComplete='off'
-                value={name}
+                value={valueInp.name}
             />
             <span>Имя Фамилия</span>
             <i />

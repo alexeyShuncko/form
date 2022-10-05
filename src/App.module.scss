@@ -143,11 +143,11 @@ form {
 
 
 .btn {
-  display: flex;
+ 
   padding: 10px 20px;
   background: #45f3ff;
   border-radius: 4px;
-  margin: 35px auto;
+  
   font-size: 1em;
  
 }
@@ -160,6 +160,11 @@ form {
 }
 
 
+.btnContainer {
+  display: flex;
+  margin: 35px auto;
+}
+
 
 
 .messError {
@@ -169,13 +174,3 @@ form {
  letter-spacing: 0.05em;
 }
 
-.messErrorReq {
-  color: $err;
-  width: 300px;
-}
-
-.success {
-  color: $pc;
-  font-size: 25px;
-  cursor: pointer;
-}
