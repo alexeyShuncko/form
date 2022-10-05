@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import s from './App.module.scss';
-import DateInput from "./components/Date";
-import Email from "./components/Email";
-import Phone from "./components/Phone";
-import UserName from "./components/UserName";
-import setting from './image/Settings.gif';
+import ButtonSubmit from "./components/button/ButtonSubmit";
+import DateInput from "./components/input/Date";
+import Email from "./components/input/Email";
+import Phone from "./components/input/Phone";
+import UserName from "./components/input/UserName";
+import { ErrorInput } from "./model/ErrorProps";
 
 
 
@@ -13,27 +14,30 @@ interface dataForm {
 }
 
 
+
 const App: React.FC = (props) => {
 
-  const [name, setName] = useState<string>('')
-  const [email, setEmail] = useState<string>('')
-
-
-  const [error, setError] = useState<boolean>(false)
+  const [error, setError] = useState<ErrorInput>({
+    email: false,
+    name: false,
+    tel: false,
+    date: false
+  })
   
 
-  const [message, setMessage] = useState<boolean>(false)
 
-  const [loading, setLoading] = useState<boolean>(false)
 
   useEffect(() => {
 
-   
+    let form =  document.querySelectorAll('input')
+    let arrRes: string[] = []
+    form.forEach(a => arrRes.push(a.value))
+
     let btn = document.querySelector('button')
 
     
     
-    if (error || !name || !email) {
+    if (error.email || error.name ||  error.tel || error.date || arrRes.includes('')|| arrRes.includes('+7 (')) {
       btn!.disabled = true
       btn!.classList.contains(s.full)  && btn!.classList.remove(s.full)
     }
@@ -55,45 +59,12 @@ const App: React.FC = (props) => {
     const date = form[3] as HTMLInputElement
     const message = form[4] as HTMLTextAreaElement
 
-    const childUsername = username.nextSibling as HTMLElement
+
+    
 
 
-    if (!/[a-zA-Z]+\s{1}[a-zA-Z]+$/.test(username.value)
-      && !childUsername.classList.contains(s.messErrorReq)) {
-      const mess = document.createElement('div')
-      mess.appendChild(document.createTextNode(`Поле  может состоять только из 2-х слов
-       латинского алфавита. Минимальная длина  3 символа, максимальная 30. 
-      Между словами  1 пробел`))
-      mess.classList.add(s.messErrorReq)
-      username.classList.add(s.error)
-      username.after(mess)
-    }
-
-    else if (username.value === '' || email.value === ''
-      || tel.value === '' || date.value === '' || message.value === '') {
-      for (const item of form) {
-        const el = item as HTMLInputElement
-        const child = el.nextSibling as HTMLElement
-        if (el.value === '' && el.type !== 'button'
-          && !child.classList.contains(s.messErrorReq)) {
-          const mess = document.createElement('div')
-          mess.appendChild(document.createTextNode('Поле не должно быть пустым!'))
-          mess.classList.add(s.messErrorReq)
-          item.classList.add(s.error)
-          item.after(mess)
-        }
-
-      }
-    }
-    else if (tel.value.length === 4) {
-      const mess = document.createElement('div')
-      mess.appendChild(document.createTextNode(`Введите номер телефона!`))
-      mess.classList.add(s.messErrorReq)
-      tel.classList.add(s.error)
-      tel.after(mess)
-    }
-    else {
-      setLoading(true)
+   
+      // setLoading(true)
       let formObj = document.forms[0]
       formObj.nextSibling && formObj.nextSibling.remove()
 
@@ -120,7 +91,7 @@ const App: React.FC = (props) => {
           let textJSONError = `Произошла ошибка при отправке формы!`
 
           setTimeout(() => {
-            setLoading(false)
+            // setLoading(false)
             btn!.disabled = false
             if (statusJSON !== 'errorerror') {
               formObj.reset()
@@ -144,7 +115,7 @@ const App: React.FC = (props) => {
             }
           }, 2000)
         })
-    }
+    
 
   }
 
@@ -156,25 +127,15 @@ const App: React.FC = (props) => {
         <form name="my">
           <h2>Форма обратной связи</h2>
 
-          <UserName name={name} setName={setName} setError={setError}/>
-          <Email  email={email} setEmail={setEmail} setError={setError} />
-          <Phone />
-          <DateInput />
+          <UserName setError={setError} error={error}/>
+          <Email error={error} setError={setError} />
+          <Phone error={error} setError={setError}/>
+          <DateInput error={error} setError={setError}/>
 
-          <div >
-            <button
-              className={s.btn}
-              onClick={submit}
-              type='button'
-             >Отправить</button>
-            {loading &&
-              <img src={setting}
-                alt='settings'
-                width={'45px'}
-                style={{ marginLeft: '10px' }} />
-            }
 
-          </div>
+          <ButtonSubmit submitForm={submit}/>
+
+          
         </form>
       </div>
 

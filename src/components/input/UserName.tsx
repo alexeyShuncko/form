@@ -1,17 +1,14 @@
 import React, { useState } from "react";
-import s from '../App.module.scss';
+import s from '../../App.module.scss';
+import { ErrorProps } from "../../model/ErrorProps";
 
 
 
-interface UserNameProps {
-  setName: React.Dispatch<string>
-  setError: React.Dispatch<boolean>
-  name: string
-}
 
 
-const UserName = ({setName, name, setError}: UserNameProps) => {
+const UserName = ({setError, error}: ErrorProps) => {
 
+  const [name, setName] = useState<string>('')
   const [text, setText] = useState<string>('')
   const [edit, setEdit] = useState<boolean>(false)
 
@@ -19,17 +16,20 @@ const UserName = ({setName, name, setError}: UserNameProps) => {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
 
-    setError(true)
+    setError({...error, name: true})
 
     e.target.value = e.target.value.toUpperCase()
     setName(e.target.value)
 
     let regName = /[^a-zA-Z ]/
 
-     if (e.target.value[0] === ' ') {
-      setError(true)
+    if (e.target.value[0] === ' ') {
       setEdit(true)
       setText("Имя не может начинаться с пробела!")
+    }
+    else if (regName.test(e.target.value)) {
+      setEdit(true)
+      setText("Только буквы латинского алфавита!")
     }
     else if ( (e.target.value.length < 3 && e.target.value.length !== 0)
       || (e.target.value.includes(' ') && e.target.value.slice(0, e.target.value.indexOf(' ')).length < 3)) {
@@ -50,20 +50,18 @@ const UserName = ({setName, name, setError}: UserNameProps) => {
       setEdit(true)
       setText("Максимальная длина фамилии 30 символов!")
     }
-    else if (regName.test(e.target.value)) {
-      setEdit(true)
-      setText("Только буквы латинского алфавита!")
-    }
-    else if (!/[a-zA-Z]+\s{1}[a-zA-Z]+$/.test(e.target.value) && e.target.value.length !== 0) {
+    else if (!/[a-zA-Z]\s{1}[a-zA-Z]/.test(e.target.value) && e.target.value.length !== 0) {
       setEdit(true)
       setText("Некоректные имя и фамилия!")
     }
-   
+    else if (e.target.value.slice(e.target.value.indexOf(' ') + 1,e.target.value.length).includes(' ')) {
+      setEdit(true)
+      setText("Имя и фамилия уже введены!")
+    }
     else {
       setEdit(false)
-      setError(false)
+      setError({...error, name: false})
     }
-
   }
 
 
