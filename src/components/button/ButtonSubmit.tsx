@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from "react";
 import s from '../../App.module.scss';
-import setting from '../../image/Settings.gif';
+import { ReactComponent as Loading } from "../../image/Loading.svg";
 import { IProps } from "../../model/iprops";
 
 
+interface IButtonProps extends IProps {
+    setModal: React.Dispatch<boolean>
+    modal: boolean
+}
 
 
-
-const ButtonSubmit = ({ setValue, valueInp, error }: IProps) => {
+const ButtonSubmit = ({ setValue, valueInp, error, setModal, modal }: IButtonProps) => {
 
     const [loading, setLoading] = useState<boolean>(false)
 
@@ -17,32 +20,34 @@ const ButtonSubmit = ({ setValue, valueInp, error }: IProps) => {
 
         const check = (obj: any): boolean => {
             for (const key in obj) {
-                if (obj[key].length === 0 
-                    || (typeof obj[key] === 'object' &&  obj[key].join('') === '+7 (') 
-                    ||  obj[key] === true) {
-                  return  true
+                if (obj[key].length === 0
+                    || (typeof obj[key] === 'object' && obj[key].join('') === '+7 (')
+                    || obj[key] === true) {
+                    return true
                 }
             }
-            return false  
+            return false
         }
-        
+
         if (check(valueInp) || check(error)) {
             btn!.disabled = true
             btn!.classList.contains(s.full) && btn!.classList.remove(s.full)
         }
         else {
-            btn!.disabled = false
+            !loading && (btn!.disabled = false)
             btn!.classList.add(s.full)
         }
-
     })
 
 
     const handlerClick = (e: React.MouseEvent<HTMLButtonElement>): void => {
-        let btn = e.target as HTMLButtonElement
-        btn.disabled = true
+        let btn = e.currentTarget as HTMLButtonElement
+
+        btn!.disabled = true
         setLoading(true)
+
         setTimeout(() => {
+            setModal(true)
             setValue({
                 email: '',
                 name: '',
@@ -51,9 +56,7 @@ const ButtonSubmit = ({ setValue, valueInp, error }: IProps) => {
             })
             setLoading(false)
             console.log({ ...valueInp, tel: valueInp.tel.join('') })
-
-        }, 2000)
-
+        }, 3000)
     }
 
     return (
@@ -64,10 +67,10 @@ const ButtonSubmit = ({ setValue, valueInp, error }: IProps) => {
                 type='button'
             >Отправить</button>
             {loading &&
-                <img src={setting}
-                    alt='settings'
-                    width={'40px'}
-                    style={{ marginLeft: '10px'}} />
+                <Loading
+                    height={'43px'}
+                    width={'43px'}
+                    style={{ marginLeft: '10px' }} />
             }
 
         </div>
