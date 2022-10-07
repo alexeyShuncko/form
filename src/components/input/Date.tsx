@@ -12,22 +12,26 @@ const DateInput = ({setError, error, setValue, valueInp}: IProps) => {
 
     let min = '1900-10-01'
     
-   
 
     const handleChangeDate = (e: React.ChangeEvent<HTMLInputElement>): void => {
 
+        setValue({...valueInp, date: e.target.value})
+    
         if (new Date(e.target.value) > new Date() || new Date(e.target.value) < new Date(min)) {
-            setValue({...valueInp, date: e.target.value})
+            e.target.classList.remove(s.err)
+            setEdit(true)
+            setError({...error, date: true})
+        }
+        else if (!e.target.value) {
+            e.target.classList.add(s.err)
             setEdit(true)
             setError({...error, date: true})
         }
         else {
+            e.target.classList.remove(s.err)
             setEdit(false)
             setError({...error, date: false})
-            setValue({...valueInp, date: e.target.value})
         }
-      
-       
     }
 
 

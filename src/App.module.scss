@@ -119,17 +119,17 @@ form {
   }
 }
 
-.inputBox input:valid~span,
-.inputBox input:focus~span {
-  transform: translateY(-34px);
-  color: #45f3ff;
-  font-size: 0.75em;
-}
+ .inputBox input:valid~span,
+ .inputBox input:focus~span {
+   transform: translateY(-34px);
+   color: #45f3ff;
+   font-size: 0.75em;
+ }
 
-.inputBox input:valid~i,
-.inputBox input:focus~i {
-  height: 44px;
-}
+ .inputBox input:valid~i,
+ .inputBox input:focus~i {
+   height: 44px;
+ }
 
 .inputBox textarea:valid~i,
 .inputBox textarea:focus~i {
@@ -142,6 +142,19 @@ form {
   color: #45f3ff;
   font-size: 0.75em;
 }
+
+.inputBox input:invalid.err~span,
+.inputBox input:focus~span {
+  transform: translateY(-34px);
+  color: #45f3ff;
+  font-size: 0.75em;
+}
+
+.inputBox input:invalid.err~i,
+.inputBox input:focus~i {
+  height: 44px;
+}
+
 
 
 
@@ -184,7 +197,7 @@ form {
   left: 0;
   min-width: 100vw;
   min-height: 100vh;
-  background-color: rgba(0,0,0,0.7);
+  background-color: rgba(0,0,0,0.8);
   z-index: 20;
   animation: visibl 0.5s;
 }

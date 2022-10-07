@@ -39,6 +39,7 @@ const App: React.FC = (props) => {
           <Email error={error} setError={setError} setValue={setValue} valueInp={valueInp} />
           <Phone error={error} setError={setError} setValue={setValue} valueInp={valueInp} />
           <DateInput error={error} setError={setError} setValue={setValue} valueInp={valueInp} />
+          
 
           <ButtonSubmit
             modal={modal} setModal={setModal}
