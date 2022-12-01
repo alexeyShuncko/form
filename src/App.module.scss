@@ -1,7 +1,6 @@
 $pc: #45f3ff;
 $err: #f06470;
 
-
 .container {
   display: flex;
   justify-content: center;
@@ -10,7 +9,6 @@ $err: #f06470;
   font-size: 20px;
   background: #23232e;
 }
-
 
 .box {
   position: relative;
@@ -55,8 +53,6 @@ $err: #f06470;
   }
 }
 
-
-
 form {
   position: absolute;
   padding: 30px 40px;
@@ -64,7 +60,6 @@ form {
   background: #23232e;
   border-radius: 8px;
   z-index: 10;
-
 
   h2 {
     color: #45f3ff;
@@ -74,7 +69,6 @@ form {
     font-size: 1.1em;
   }
 }
-
 
 .inputBox {
   position: relative;
@@ -119,51 +113,47 @@ form {
   }
 }
 
- .inputBox input:valid~span,
- .inputBox input:focus~span {
-   transform: translateY(-34px);
-   color: #45f3ff;
-   font-size: 0.75em;
- }
-
- .inputBox input:valid~i,
- .inputBox input:focus~i {
-   height: 44px;
- }
-
-.inputBox textarea:valid~i,
-.inputBox textarea:focus~i {
-  height: 44px;
-}
-
-.inputBox textarea:valid~span,
-.inputBox textarea:focus~span {
+.inputBox input:valid ~ span,
+.inputBox input:focus ~ span {
   transform: translateY(-34px);
   color: #45f3ff;
   font-size: 0.75em;
 }
 
-.inputBox input:invalid.err~span,
-.inputBox input:focus~span {
+.inputBox input:valid ~ i,
+.inputBox input:focus ~ i {
+  height: 44px;
+}
+
+.inputBox textarea:valid ~ i,
+.inputBox textarea:focus ~ i {
+  height: 44px;
+}
+
+.inputBox textarea:valid ~ span,
+.inputBox textarea:focus ~ span {
   transform: translateY(-34px);
   color: #45f3ff;
   font-size: 0.75em;
 }
 
-.inputBox input:invalid.err~i,
-.inputBox input:focus~i {
-  height: 44px;
+.inputBox input:invalid.err ~ span,
+.inputBox input:focus ~ span {
+  transform: translateY(-34px);
+  color: #45f3ff;
+  font-size: 0.75em;
 }
 
-
-
+.inputBox input:invalid.err ~ i,
+.inputBox input:focus ~ i {
+  height: 44px;
+}
 
 .btn {
   padding: 10px 20px;
   background: #45f3ff;
   border-radius: 4px;
   font-size: 1em;
- 
 }
 
 .btn:active {
@@ -180,8 +170,6 @@ form {
   margin: 35px auto;
 }
 
-
-
 .messError {
   font-size: 0.75em;
   color: $err;
@@ -189,15 +177,13 @@ form {
   letter-spacing: 0.05em;
 }
 
-
-
 .modal {
   position: fixed;
   top: 0;
   left: 0;
   min-width: 100vw;
   min-height: 100vh;
-  background-color: rgba(0,0,0,0.8);
+  background-color: rgba(0, 0, 0, 0.8);
   z-index: 20;
   animation: visibl 0.5s;
 }
@@ -216,9 +202,9 @@ form {
   font-weight: 600;
   border: 2px solid #45f3ff;
   animation: visibl 0.5s;
- button {
-  margin-top: 30px;
- }
+  button {
+    margin-top: 30px;
+  }
 }
 @keyframes visibl {
   0% {
